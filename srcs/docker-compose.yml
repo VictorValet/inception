@@ -12,6 +12,14 @@ services:
     restart: unless-stopped
     expose:
     - "3306"
+    environment:
+      MYSQL_ROOT_PWD: /run/secrets/db_pwd
+      WP_ADMIN_PWD: /run/secrets/wp_admin_pwd
+      WP_ADMIN_USR: /run/secrets/wp_admin_usr
+    secrets:
+      - db_pwd
+      - wp_admin_pwd
+      - wp_admin_usr
   wordpress:
     container_name: wordpress
     networks:
@@ -27,6 +35,20 @@ services:
     restart: on-failure
     expose:
     - "9000"
+    environment:
+      WP_ADMIN_EMAIL: /run/secrets/wp_admin_email
+      WP_ADMIN_PWD: /run/secrets/wp_admin_pwd
+      WP_ADMIN_USR: /run/secrets/wp_admin_usr
+      WP_USER_EMAIL: /run/secrets/wp_user_email
+      WP_USER_PWD: /run/secrets/wp_user_pwd
+      WP_USER_USR: /run/secrets/wp_user_usr
+    secrets:
+      - wp_admin_email
+      - wp_admin_pwd
+      - wp_admin_usr
+      - wp_user_email
+      - wp_user_pwd
+      - wp_user_usr
   nginx:
     container_name: nginx
     networks:
@@ -62,3 +84,19 @@ volumes:
 networks:
   inception-network:
     driver: bridge
+
+secrets:
+  db_pwd:
+    file: ./secrets/db_pwd.txt
+  wp_admin_email:
+    file: ./secrets/wp_admin_email.txt
+  wp_admin_pwd:
+    file: ./secrets/wp_admin_pwd.txt
+  wp_admin_usr:
+    file: ./secrets/wp_admin_usr.txt
+  wp_user_email:
+    file: ./secrets/wp_user_email.txt
+  wp_user_pwd:
+    file: ./secrets/wp_user_pwd.txt
+  wp_user_usr:
+    file: ./secrets/wp_user_usr.txt
