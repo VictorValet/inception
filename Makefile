@@ -1,33 +1,32 @@
 all: volumes
-	docker compose -f ~/inception/srcs/docker-compose.yml up -d --build
+	docker compose -f ./srcs/docker-compose.yml up -d --build
 
-re: fclean all
+re: clean all
 
-down:
-	docker compose -f ~/inception/srcs/docker-compose.yml down
+up : volumes
+	docker compose -f ./srcs/docker-compose.yml up -d
 
-clean: down ## Stop Inception & Clean inception docker (prune -f)
-	@ docker system prune -f
+down :
+	docker compose -f ./srcs/docker-compose.yml down
 
-cleanv: ## Remove persistant datas
-	@ sudo rm -rf ~/data
+start : 
+	docker compose -f ./srcs/docker-compose.yml start
 
-prune: down ## Remove all dockers on this system (prune -a)
-	@ docker system prune -a
+stop : 
+	docker compose -f ./srcs/docker-compose.yml stop
 
-fclean: down prune cleanv ## Remove all dockers on this system & Remove persistant datas
-	@echo "Stopping and removing containers..."
-	@docker stop $$(docker ps -qa) 2>/dev/null || true
+cleanv:
+	@ sudo rm -Rf ~/data
+
+clean: down cleanv
 	@docker rm $$(docker ps -qa) 2>/dev/null || true
-	@echo "Removing images..."
 	@docker rmi -f $$(docker images -qa) 2>/dev/null || true
-	@echo "Removing volumes..."
 	@docker volume rm $$(docker volume ls -q) 2>/dev/null || true
-	@echo "Removing networks..."
 	@docker network rm $$(docker network ls -q) 2>/dev/null || true
+	@docker system prune -af
 
 volumes:
 	@ mkdir -p /home/vvalet/data/wordpress
 	@ mkdir -p /home/vvalet/data/mariadb
 
-.PHONY: all re down clean
+.PHONY: all re up down start stop clean cleanv volumes
