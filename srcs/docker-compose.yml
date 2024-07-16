@@ -13,9 +13,9 @@ services:
     expose:
     - "3306"
     environment:
-      MYSQL_ROOT_PWD: /run/secrets/db_pwd
-      WP_ADMIN_PWD: /run/secrets/wp_admin_pwd
-      WP_ADMIN_USR: /run/secrets/wp_admin_usr
+      MYSQL_ROOT_PWD_FILE: /run/secrets/db_pwd
+      WP_ADMIN_PWD_FILE: /run/secrets/wp_admin_pwd
+      WP_ADMIN_USR_FILE: /run/secrets/wp_admin_usr
     secrets:
       - db_pwd
       - wp_admin_pwd
@@ -36,12 +36,12 @@ services:
     expose:
     - "9000"
     environment:
-      WP_ADMIN_EMAIL: /run/secrets/wp_admin_email
-      WP_ADMIN_PWD: /run/secrets/wp_admin_pwd
-      WP_ADMIN_USR: /run/secrets/wp_admin_usr
-      WP_USER_EMAIL: /run/secrets/wp_user_email
-      WP_USER_PWD: /run/secrets/wp_user_pwd
-      WP_USER_USR: /run/secrets/wp_user_usr
+      WP_ADMIN_EMAIL_FILE: /run/secrets/wp_admin_email
+      WP_ADMIN_PWD_FILE: /run/secrets/wp_admin_pwd
+      WP_ADMIN_USR_FILE: /run/secrets/wp_admin_usr
+      WP_USER_EMAIL_FILE: /run/secrets/wp_user_email
+      WP_USER_PWD_FILE: /run/secrets/wp_user_pwd
+      WP_USER_USR_FILE: /run/secrets/wp_user_usr
     secrets:
       - wp_admin_email
       - wp_admin_pwd
@@ -87,16 +87,16 @@ networks:
 
 secrets:
   db_pwd:
-    file: ./secrets/db_pwd.txt
+    file: ../secrets/db_pwd.txt
   wp_admin_email:
-    file: ./secrets/wp_admin_email.txt
+    file: ../secrets/wp_admin_email.txt
   wp_admin_pwd:
-    file: ./secrets/wp_admin_pwd.txt
+    file: ../secrets/wp_admin_pwd.txt
   wp_admin_usr:
-    file: ./secrets/wp_admin_usr.txt
+    file: ../secrets/wp_admin_usr.txt
   wp_user_email:
-    file: ./secrets/wp_user_email.txt
+    file: ../secrets/wp_user_email.txt
   wp_user_pwd:
-    file: ./secrets/wp_user_pwd.txt
+    file: ../secrets/wp_user_pwd.txt
   wp_user_usr:
-    file: ./secrets/wp_user_usr.txt
+    file: ../secrets/wp_user_usr.txt
